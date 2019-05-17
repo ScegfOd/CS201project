@@ -21,6 +21,9 @@ public:
 
 private:
 	// Add your private variables here...
+	string name;
+	string description;
+	int initial_room_number;
 
 };
 

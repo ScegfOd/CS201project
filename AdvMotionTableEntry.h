@@ -9,7 +9,7 @@ class AdvMotionTableEntry
 {
 public:
 	AdvMotionTableEntry(string dir, int room, string key);
-	AdvMotionTableEntry(string dir, int room);
+	//AdvMotionTableEntry(string dir, int room);
 
 	int getDestinationRoom();
 	string getDirection();

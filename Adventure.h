@@ -20,12 +20,13 @@ public:
 	Adventure();
 	Adventure(string objfile, string rmfile, string cmdfile);
 	void Play();
-	
+
 private:
 	// Loading functions
 	void LoadObjects(string filename);
 	void LoadRooms(string filename);
 	void LoadSynonyms(string filename);
+	void Setup();
 
 	// You should will need additional commands
 	// other than the quit, help, and move commands.
@@ -36,19 +37,26 @@ private:
 	void GetUserCmd(string &verb, string &obj);
 	void QuitCmd();
 	void HelpCmd();
-	int MotionCmd(string motionName);
+	void Inventory();
+	bool MotionCmd(string motionName);
+    void Take(string item);
+    void Drop(string item);
 
+	bool IsForced();
+	void PrintRoom();
 
 	// You will need some attributes to keep
 	// track what room the player is currently in
 	// and what objects are currently being held.
 
-	// You should have some methods to help you 
+	// You should have some methods to help you
 	// print the room and objects.
 
-	// You will also need attributes to store 
+	// You will also need attributes to store
 	// objects and rooms.
-	
+	int current_room;
+	vector<AdvRoom> rooms;//backpack will be room 0
+
 	struct Synonym {
 		string word;
 		string synonym;
@@ -59,7 +67,7 @@ private:
 
 // A little helper fuction that converts a string to uppercase.
 static void ConvertToUpper(string &s) {
-	for (int i = 0; i < s.length(); i++)
+	for (unsigned int i = 0; i < s.length(); i++)
 		s[i] = toupper(s[i]);
 }
 

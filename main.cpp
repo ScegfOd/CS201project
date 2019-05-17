@@ -28,11 +28,11 @@ enum { DEBUG_OBJ, DEBUG_RM, PLAY, QUIT };
  */
 int main()
 {
-	int choice = PLAY;
+	int choice;// = PLAY;
 	while (true) {
-		
+
 		DisplayMenu();
-		int choice = GetChoice(1,4) - 1;
+		choice = GetChoice(1,4) - 1;
 		cout << endl;
 		// Sometimes it's useful to hardcode choice to save time while debugging...
 		// int choice = 3;
@@ -68,25 +68,25 @@ void TestAdvRoom()
 	cout << "AdvRoom Testing" << endl;
 	cout << "=====================================" << endl;
 	cout << "Assumes AdvObjects is working." << endl << endl;
-	
+
 	vector<AdvRoom> rooms;
 	ifstream fileRms;
 	fileRms.open("SmallRooms.txt");
-	while (true) {			
+	while (true) {
 		AdvRoom room;
 		if (room.readRoom(fileRms)) // Read room
 			rooms.push_back(room);  // Add to vector
-		else			
-			break;	// Nothing else left to read				
+		else
+			break;	// Nothing else left to read
 	}
-	
+
 	cout << "Before Adding Objects" << endl;
 	cout << "-------------------------------" << endl;
 	DisplayRooms(rooms);
 
-	TestAddingObjects(rooms); 
+	TestAddingObjects(rooms);
 	DisplayRooms(rooms);
-	
+
 	TestRemovingObjects(rooms);
 	DisplayRooms(rooms);
 }
@@ -103,7 +103,7 @@ void TestRemovingObjects(vector<AdvRoom> &rooms) {
 	cout << "After Deleting Objects" << endl;
 	cout << "---------------------------------------------" << endl;
 	cout << "There should be no items in any of the rooms." << endl << endl;
-	for (int i = 0; i < rooms.size(); i++) {
+	for (unsigned int i = 0; i < rooms.size(); i++) {
 		// Add a objects to the room based on the room number. Testing purpose only.
 		cout << "Removing Objects from " << rooms[i].getName() << "... ";
 		for (int j = 0; j < rooms[i].getRoomNumber(); j++) {
@@ -129,7 +129,7 @@ void TestAddingObjects(vector<AdvRoom> &rooms) {
 	cout << "After Adding Objects" << endl;
 	cout << "------------------------------------------------------------" << endl;
 	cout << "Room 0 should have 0 items, Room 1 should have 1 items, ... " << endl << endl;
-	for (int i = 0; i < rooms.size(); i++) {
+	for (unsigned int i = 0; i < rooms.size(); i++) {
 		// Add a objects to the room based on the room number. Testing purpose only.
 		for (int j = 0; j < rooms[i].getRoomNumber(); j++) {
 			AdvObject obj("Object " + to_string(j), "Test object " + to_string(j), 42);
@@ -150,7 +150,7 @@ void TestAddingObjects(vector<AdvRoom> &rooms) {
  * Displays information about each room in the vector room.
  */
 void DisplayRooms(vector<AdvRoom> rooms) {
-	for (int i = 0; i < rooms.size(); i++) {
+	for (unsigned int i = 0; i < rooms.size(); i++) {
 		cout << "Room " << i << ": " << rooms[i].getName() << endl;
 		cout << "----------------------------------------" << endl;
 		cout << "Rm Number: " << rooms[i].getRoomNumber() << endl << endl;
@@ -180,13 +180,13 @@ void CheckRoomObjects(AdvRoom room) {
  * ----------------
  * Prints out each entry in the motion table.
  */
-void CheckMotionTable(AdvRoom room) 
+void CheckMotionTable(AdvRoom room)
 {
 	vector<AdvMotionTableEntry> table = room.getMotionTable();
 	cout << "\tMotion Table" << endl;
 	cout << "\t---------------------" << endl;
 	cout << "\tDir\tDest\tKey" << endl;
-	for (int i = 0; i < table.size(); i++) {
+	for (unsigned int i = 0; i < table.size(); i++) {
 		AdvMotionTableEntry motion = table[i];
 		string key = motion.getKeyName();
 		if (key.length() == 0) {
@@ -211,16 +211,22 @@ void TestAdvObject()
 	ifstream fileObjs;
 	fileObjs.open("SmallObjects.txt");	 // Try this one first.
 	//fileObjs.open("CrowtherObjects.txt");  // Check after testing on small
+	cout << "the file was ";
+	if(!fileObjs.is_open())
+        cout << "un";
+    cout << "successfully opened!\n";
+    int i = 0;
 	while (true) {
-		AdvObject object;
+        AdvObject object;
 		if (!object.readObject(fileObjs))
 			break;
 		objects.push_back(object);
+		cout << i++;
 	}
 
 	cout << "Total Objects Read: " << objects.size() << endl << endl;
 
-	for (int i = 0; i < objects.size(); i++) {
+	for (unsigned int i = 0; i < objects.size(); i++) {
 		cout << "Object " << i << ": " << objects[i].getName() << endl;
 		cout << "--------------------------------------------" << endl;
 		cout << "Start Room: " << objects[i].getInitialLocation() << endl;
@@ -238,13 +244,13 @@ void TestAdvObject()
  */
 void TestGame() {
 	while (true) {
-		
 		string gameName;
 		cout << "Enter Game: ";
 		getline(cin, gameName);
 		cout << endl;
 
 		Adventure game(gameName+"Objects.txt", gameName+"Rooms.txt", gameName+"Synonyms.txt");
+		
 		//Adventure game("SmallObjects.txt", "SmallRooms.txt", "SmallSynonyms.txt"); // Useful to hardcode for debugging
 
 		game.Play();
@@ -281,7 +287,7 @@ void DisplayMenu() {
  */
 int GetChoice(int startVal, int endVal)
 {
-	
+
 	while (true) {
 		int choice;
 		cout << "> ";

@@ -37,7 +37,7 @@ public:
 
 	void addObject(AdvObject obj);		   // Adds an object to the room.
 	AdvObject removeObject(string objName);// Removes an object with name objName and returns the object.
-	AdvObject getObject(int index);		   // Returns object index from the room.
+	AdvObject getObject(int index);//so odd! Debugging?
 	int objectCount();					   // Returns how many objects are in the room.
 	bool containsObject(string objName);   // Return true if the room contains an object with objName.
 	
@@ -49,8 +49,12 @@ public:
 	int getRoomNumber();						   // Returns the room number.
 
 private:
-	// Enter the room properties here.
-
+	int number;
+	string name;
+	vector<string> description;
+	vector<AdvObject> items;
+	bool has_been_visited;
+	vector<AdvMotionTableEntry> possible_moves;
 };
 
 #endif
